@@ -1,0 +1,46 @@
+#text{
+  /* width: 60%; */
+  font-size: 35px;
+  font-family: monospace;
+  border-bottom: 4px solid gray;
+  color: gray;
+  line-height: 1.4em;
+  padding-bottom: 20px;
+  /* position: relative; */
+}
+
+.container{
+  height: 60%;
+  width: 60%;
+  margin: auto;
+  /* position: absolute; */
+}
+
+#timer{
+  font-size: 25px;
+  font-family: monospace;
+  color: darkslategray;
+  /* position: relative; */
+}
+
+#typingspeed{
+  font-size: 25px;
+  font-family: monospace;
+  color: darkslategray;
+  /* position: relative; */
+}
+
+.current{
+  background-color: lightgray;
+  border-radius: 5px;
+}
+
+.correct{
+  background-color: #dbfca7;
+  border-radius: 5px;
+}
+
+.wrong{
+  background-color: #FFE9B2;
+  border-radius: 5px;
+}
