@@ -8,6 +8,14 @@ let startTime = -1 * 330 * 60 * 1000;
 let timer;
 let currentLetterBox;
 
+let options = ['lower', 'letters'];
+
+let formatters = {
+  lower: (text) => text.toLowerCase(),
+  numbers: (text) => text.split('').filter((char) => Number.isInteger(char)).join(''),
+  letters: (text) => text.split('').filter((char) => (/[a-z., ]/i).test(char)).join('')
+};
+
 const keyPressed = function (event) {
   let letterPressed = event.key;
   stopBlinking(currentLetterBox);
@@ -23,10 +31,11 @@ const keyPressed = function (event) {
     currentLetterBox.className = letterPressed === currentLetter ? 'correct' : 'wrong';
     currentLetterBox = document.getElementById(++currentLetterIndex);
   }
-  if(currentLetterBox){
+  if (currentLetterBox) {
     currentLetterBox.className = 'current';
     startBlinkCursor(currentLetterBox);
   } else {
+    document.body.onkeypress = '';
     clearInterval(timer);
   }
 }
@@ -66,12 +75,19 @@ const startBlinkCursor = function (currentCursorPosition) {
 
 const init = function () {
   let id = 0;
+  text = formatText(text, options);
   let textHTML = text.split('').reduce((text, char) => {
-    return text + char + `</span><span id="${id++}">`
-  }, `<span id="${id++}">`) + '</span>';
-
+    return `${text}<span id="${id++}">${char}</span>`;
+  }, "");
   document.getElementById('text').innerHTML = textHTML;
   loadGame();
+}
+
+const formatText = function (text, options) {
+  options.forEach((option) => {
+    text = formatters[option](text);
+  });
+  return text;
 }
 
 window.onload = init;
