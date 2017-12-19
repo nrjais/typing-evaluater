@@ -1,4 +1,4 @@
-let text = "New major releases of Node.js are cut from the GitHub master branch every six months.";
+// let text = "New major releases of Node.js are cut from the GitHub master branch every six months.";
 
 let currentLetterIndex = 0;
 let totalWords;

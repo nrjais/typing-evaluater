@@ -2,16 +2,20 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>typing</title>
+  <title>Document</title>
   <link rel="stylesheet" href="index.css">
-  <script src="index.js"></script>
 </head>
 <body>
-  <div class="container">
-    <h1 id="timer">Time - <span id="time"></span></h1>
-    <div id="text">
-    </div>
-    <h1 id="typingspeed">Speed(w/m) - <span id="speed"></span></h1>
+<div class="container">
+  <div class="textbox">
+    <form action="addText" method="POST">
+      <textarea name="text" cols="30" rows="10"></textarea><br>
+      <button type="submit">Add Text</button>
+    </form>
   </div>
+  <div class="starttyping">
+    <a href="typing.html"><button>Start Typing</button></a>
+  </div>
+</div>  
 </body>
 </html>

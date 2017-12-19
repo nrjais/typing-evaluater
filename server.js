@@ -1,6 +1,7 @@
 const http = require('http');
 const fs = require('fs');
 const qs = require('querystring');
+const texts = require('./data/texts.json');
 let PORT = 8888;
 
 const handleFileRequest = function (fileName, res, onFile, onError) {
@@ -22,6 +23,31 @@ const getHeader = function (fileName) {
   }
   return headers[extension];
 }
+
+const saveText = function (text) {
+  let data = qs.parse(text);
+  data.date = new Date().toLocaleString()
+  texts.push(data);
+  fs.writeFile('data/texts.json', JSON.stringify(texts,null,2), logError);
+};
+
+const addNewText = function (req, res) {
+  let postData = '';
+  req.on('data', (data) => {
+    postData += data;
+  });
+  req.on('end', () => {
+    saveText(postData);
+    redirectTo('index.html', res);
+  });
+};
+
+const getRandomText = function (req,res) {
+  let randomIndex = Math.floor(Math.random() * texts.length);
+  let text = `var text = "${texts[randomIndex].text.trim()}";`;
+  res.write(text);
+  res.end();
+};
 
 const readFileContent = function (fileName, res) {
   setHeader(res, fileName);
@@ -64,6 +90,8 @@ const handlers = {
   '/': (req, res) => {
     redirectTo('index.html', res);
   },
+  '/addText': addNewText,
+  '/text': getRandomText
 }
 
 const requestHandler = function (req, res) {
