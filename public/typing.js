@@ -1,10 +1,8 @@
-// let text = "New major releases of Node.js are cut from the GitHub master branch every six months.";
-
 let currentLetterIndex = 0;
 let totalWords;
 let totalLetters = text.split('').length;
-let words = 1;
-let startTime = -1 * 330 * 60 * 1000;
+let words = 0;
+let startTime = -330 * 60000;
 let timer;
 let currentLetterBox;
 
@@ -55,7 +53,7 @@ const startTimer = function (timeDisplay, speedDisplay) {
   timer = setInterval(() => {
     let time = new Date(startTime);
     let timeSpend = time.getMinutes() * 60 + time.getSeconds();
-    speedDisplay.innerText = Math.floor(60 * words / timeSpend);
+    speedDisplay.innerText = Math.floor((60 * words) / (timeSpend + 1));
     timeDisplay.innerText = `${time.getMinutes()}:${time.getSeconds()}`
     startTime += 101;
   }, 100);
