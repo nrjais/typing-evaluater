@@ -1,3 +1,4 @@
+Objective:
 ☐ improve logic of typing speed calculation
 ☐ improve design of front page
 ☐ add options for selecting type of text for typing
@@ -5,3 +6,11 @@
 ☐ login systen for saving previos results
 ☐ extend typing text collection
 ☐ verify texts added by user
+Problems:
+✔ blinkCursor is global now @done(2018-01-15 00:46)
+Bugs:
+☐ add text will count spaces as plus
+☐ input: hi+today+is+very+good.+9+%2B+11+%3D+20+which+is+approx+20%25
+  output: hitodayisverygood.bdwhichisapprox
+✔ does not work if numbers are present @done(2018-01-15 00:51)
+☐ deleting words does not work

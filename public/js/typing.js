@@ -5,14 +5,26 @@ let words = 0;
 let startTime = -330 * 60000;
 let timer;
 let currentLetterBox;
+let blinkCursor;
 
 let options = ['lower', 'letters'];
 
 let formatters = {
   lower: (text) => text.toLowerCase(),
-  numbers: (text) => text.split('').filter((char) => Number.isInteger(char)).join(''),
-  letters: (text) => text.split('').filter((char) => (/[a-z., ]/i).test(char)).join('')
+  letters: (text) => text.split('').filter((char) => (/[a-z.,0-9 ]/i).test(char)).join('')
 };
+
+const stopBlinking = function (currentLetterBox) {
+  clearInterval(blinkCursor);
+  currentLetterBox.style['background-color'] = "";
+}
+
+const startBlinkCursor = function (currentCursorPosition) {
+  blinkCursor = setInterval(() => {
+    let currentBg = currentCursorPosition.style['background-color'];
+    currentCursorPosition.style['background-color'] = currentBg == "" ? "white" : "";
+  }, 500);
+}
 
 const keyPressed = function (event) {
   let letterPressed = event.key;
@@ -38,6 +50,16 @@ const keyPressed = function (event) {
   }
 }
 
+const startTimer = function (timeDisplay, speedDisplay) {
+  timer = setInterval(() => {
+    let time = new Date(startTime);
+    let timeSpend = time.getMinutes() * 60 + time.getSeconds();
+    speedDisplay.innerText = Math.floor((60 * words) / (timeSpend + 1));
+    timeDisplay.innerText = `${time.getMinutes()}:${time.getSeconds()}`
+    startTime += 101;
+  }, 100);
+}
+
 const loadGame = function () {
   let timeDisplay = document.getElementById('time');
   let speedDisplay = document.getElementById('speed');
@@ -49,26 +71,11 @@ const loadGame = function () {
   startBlinkCursor(currentLetterBox);
 }
 
-const startTimer = function (timeDisplay, speedDisplay) {
-  timer = setInterval(() => {
-    let time = new Date(startTime);
-    let timeSpend = time.getMinutes() * 60 + time.getSeconds();
-    speedDisplay.innerText = Math.floor((60 * words) / (timeSpend + 1));
-    timeDisplay.innerText = `${time.getMinutes()}:${time.getSeconds()}`
-    startTime += 101;
-  }, 100);
-}
-
-const stopBlinking = function (currentLetterBox) {
-  clearInterval(blinkCursor);
-  currentLetterBox.style['background-color'] = "";
-}
-
-const startBlinkCursor = function (currentCursorPosition) {
-  blinkCursor = setInterval(() => {
-    let currentBg = currentCursorPosition.style['background-color'];
-    currentCursorPosition.style['background-color'] = currentBg == "" ? "white" : "";
-  }, 500);
+const formatText = function (text, options) {
+  options.forEach((option) => {
+    text = formatters[option](text);
+  });
+  return text;
 }
 
 const init = function () {
@@ -79,13 +86,6 @@ const init = function () {
   }, "");
   document.getElementById('text').innerHTML = textHTML;
   loadGame();
-}
-
-const formatText = function (text, options) {
-  options.forEach((option) => {
-    text = formatters[option](text);
-  });
-  return text;
 }
 
 window.onload = init;
