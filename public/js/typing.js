@@ -11,6 +11,7 @@ let options = ['lower', 'letters'];
 
 let formatters = {
   lower: (text) => text.toLowerCase(),
+  numbers: (text) => text.split('').filter((char) => Number.isInteger(char)).join(''),
   letters: (text) => text.split('').filter((char) => (/[a-z.,0-9 ]/i).test(char)).join('')
 };
 
@@ -26,7 +27,7 @@ const startBlinkCursor = function (currentCursorPosition) {
   }, 500);
 }
 
-const keyPressed = function (event) {
+const handleKeyPressed = function (event) {
   let letterPressed = event.key;
   stopBlinking(currentLetterBox);
   if (event.keyCode == 8) {            //backspace key
@@ -63,7 +64,7 @@ const startTimer = function (timeDisplay, speedDisplay) {
 const loadGame = function () {
   let timeDisplay = document.getElementById('time');
   let speedDisplay = document.getElementById('speed');
-  document.body.onkeydown = keyPressed;
+  document.body.onkeydown = handleKeyPressed;
   currentLetterBox = document.getElementById(currentLetterIndex);
   currentLetterBox.className = 'current';
   totalWords = text.split(' ').length;
