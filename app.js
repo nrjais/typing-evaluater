@@ -41,7 +41,12 @@ app.use(express.urlencoded({
   extended: false
 }));
 app.use(express.json());
+app.set('views','templates');
+app.set('view engine','pug');
 app.use(express.static('public'));
+app.get('/adminPage',function(req,res,next){
+  res.render('addPassage',{});
+});
 app.get('/text',getRandomText);
 app.post('/addText',saveText);
 module.exports = app;
