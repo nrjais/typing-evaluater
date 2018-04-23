@@ -1,34 +1,24 @@
 const chai = require('chai');
 const should = chai.should();
 const path = require('path');
-const knex = require(path.resolve('db/knex.js'));
-const queries = require(path.resolve('db/queries.js'));
+// const knex = require(path.resolve('db/knex.js'));
+const Queries = require(path.resolve('db/queries.js'));
+const environment = 'test';
+const config = require('../knexfile.js')[environment];
 
 describe('Queries',function(){
+  const queries = new Queries(config);
   after(function(done){
-    knex.destroy();
+    queries.endConnection();
     done();
   });
   beforeEach(function(done){
-    knex.migrate.rollback()
-    .then(function() {
-      knex.migrate.latest()
-      .then(function() {
-        return knex.seed.run()
-        .then(function() {
-          done();
-        });
-      });
-    });
+    queries.restoreInitialState(done);
   });
 
   afterEach(function(done) {
-    knex.migrate.rollback()
-    .then(function() {
-      done();
-    });
+    queries.rollBack(done);
   });
-
 
   describe('allPassage',function(){
     it('should give all passages available in the database',function(done){

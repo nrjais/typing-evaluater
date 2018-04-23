@@ -1,5 +1,9 @@
 const http = require('http');
-const app = require('./app.js');
+const path = require('path');
+const app = require(path.resolve('app.js'));
+const Queries = require(path.resolve('db/queries.js'));
+const config = require(path.resolve('knexfile.js'))[process.env.NODE_ENV||'development'];
+app.queries = new Queries(config);
 let port = 8888;
 const server = http.createServer(app);
 server.listen(process.env.PORT||port);
